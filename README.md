@@ -5,6 +5,10 @@ Arduino temperature and humidity logger is a wireless temperature and humidity m
 temperature and humidity values via 433MHz RF link to Arduino gateway. The Arduino gateway will pass the measurement
 values to Domoticz via MQTT protocol.
 
+More information about Arduino Domoticz Gateway can be found via following link:
+
+[Arduino-Domoticz-Gateway](https://github.com/MikaPetteriLundgren/Arduino-Domoticz-Gateway)
+
 Arduino-Temp-Hum-Logger sketch will need following HW and SW libraries to work:
 
 **HW**
