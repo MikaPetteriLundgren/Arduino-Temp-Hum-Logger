@@ -38,9 +38,10 @@ This repository includes also breadboard and schematics pictures in PDF and Frit
 
 **Functionality of the sketch**
 
-Sketch reads current time from the RTC clock and checks is it time to perform temperature and humidity measurement functions.
-After the temperature and humidity is measured, values will be added to the data string which is sent to Arduino based gateway via 433MHz RF link 
-which will then send the data to the MQTT server. So this sketch doesn't send temperature and humidity data directly to the MQTT server.
+Sketch reads current time from the RTC clock and checks is it time to run temperature and humidity measurement functions.
+After the temperature and humidity values are measured, values will be added to the data string with IDX and dtype values.
+The data string is then converted to char array and sent to Arduino based gateway via 433MHz RF link  which will then send the 
+data to the MQTT server. So this sketch doesn't send temperature and humidity data directly to the MQTT server.
 
 There is also a sleep function in main loop which will decrease overall power consumption.
 
