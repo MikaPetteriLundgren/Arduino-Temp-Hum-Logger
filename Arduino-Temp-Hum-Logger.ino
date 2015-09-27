@@ -4,7 +4,7 @@
    
    Temperature and humidity readings are read from DHT22 (RHT03) digital temperature & humidity sensor via MaxDetect 1-Wire bus
    Note! MaxDetect 1-Wire bus in not compatible with Dallas OneWire bus!!!
-   Data is sent with TX433N RF transmitter using VirtualWire library to Arduino gateway which sends data to Domoticz running on
+   Data is sent with TX433N RF transmitter using VirtualWire library to Arduino Domoticz Gateway which sends data to Domoticz running on
    Raspberry Pi using MQTT protocol.*/
 
 #include "DHT.h"
@@ -22,8 +22,8 @@ unsigned long PreviousTime = 0; // Unix time is compared to PreviousTime in orde
 float temperature = 0; // Variable to store temperature readings
 float humidity = 0; // Variable to store humidity readings
 
-const String topicID = "TOPICID"; //topicID is used to separate sensors in Domoticz. topicID must be unique per Domoticz system. CHANGE THIS TO CORRECT ONE!!!
-const String dtype = "82"; // dtype (device type) is a value used by Domoticz server to determine sensor type. 82 means temp+hum and 80 meas temp only.
+const int sensorIDX = 539; // IDX number of sensor connected to this device
+const int dtype = 82; // dtype (device type) is a value used by Domoticz server to determine sensor type. 82 means temp+hum and 80 means temp only.
  
 #define DHTPIN 2     // DHT22 data pin is plugged into pin 2 of the Arduino 
 #define DHTTYPE DHT22   // DHT22 is used
@@ -71,15 +71,15 @@ void loop()
     delay(500);
     humidity = humReading(); // HumReading function is called
     
-    // Temperature is printed
-    Serial.println();
+    // Measured temperature is printed
+    Serial.print(F("\nMeasured temperature: "));
     Serial.print(temperature);
-    Serial.print(F("DegC"));
+    Serial.println(F("DegC"));
     
-    // Humidity is printed
-    Serial.print(" ");
+    // Measured humidity is printed
+    Serial.print(F("Measured humidity: "));
     Serial.print(humidity);
-    Serial.println(F("%"));
+    Serial.println(F("%\n"));
     
     //createDataToBeSent();
     sendData(createDataToBeSent()); // Create data String to be sent and send it data via RF link
@@ -128,12 +128,11 @@ float humReading() // Function humReading is declared
   return (float) h;
 }
 
-String createDataToBeSent() // Function createDataToBeSent is declared. This function creates a String from topicID, dtype 
-//and measured temperature & humidity values. Created String is returned.
+String createDataToBeSent() // Function createDataToBeSent creates a String from sensorIDX, dtype and measured temperature & humidity values. Created String is returned.
 {
-  String dataString = topicID;
+  String dataString = String(sensorIDX);
   dataString += ':';
-  dataString += dtype;
+  dataString += String(dtype);
   dataString += ':';
   dataString += temperature;
   dataString += ':';
